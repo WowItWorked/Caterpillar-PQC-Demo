@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:"Barlow",system-ui,sans-serif;background:#F4F4F2;color:#18181B;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  :root{
+    --cat-yellow:#FFCD11;--cat-yellow-700:#C99A00;--cat-yellow-050:#FFF8E1;--cat-yellow-line:#F2D98A;
+    --ink:#18181B;--ink-2:#52525B;--ink-3:#71717A;
+    --surface:#FFFFFF;--canvas:#F4F4F2;--sunken:#ECECEA;
+    --line:#E4E4E7;--line-2:#D4D4D8;
+    --graphite:#141414;--graphite-2:#222226;
+    --ok:#15803D;--ok-bg:#E7F5EC;
+    --info:#0E7490;--info-bg:#E0F2F1;
+    --warn:#B45309;--warn-bg:#FCEFD9;
+    --rk-crit:#7F1D1D;--rk-crit-bg:#F6E2E1;
+    --rk-high:#B91C1C;--rk-high-bg:#FBE7E6;
+    --rk-med:#B45309;--rk-med-bg:#FCEFD9;
+    --rk-low:#15803D;--rk-low-bg:#E7F5EC;
+  }
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-thumb{background:#C9C9C6;border-radius:99px;border:2px solid #F4F4F2}
+  ::-webkit-scrollbar-track{background:transparent}
+  h1,h2,h3,h4{font-family:"Archivo",sans-serif;margin:0}
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</helmet>
+<div style="display:flex;height:100vh;width:100%;overflow:hidden;font-family:'Barlow',sans-serif">
+
+  <aside style="width:256px;background:#141414;color:#fff;flex:none;display:flex;flex-direction:column;height:100%">
+    <div style="padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.1)">
+      <div style="display:flex;align-items:center;gap:11px">
+        <span style="width:34px;height:34px;background:#FFCD11;display:grid;place-items:center;flex:none;transform:skewX(-9deg)">
+          <span style="font-family:'Archivo',sans-serif;font-weight:900;font-size:19px;color:#141414;transform:skewX(9deg)">C</span>
+        </span>
+        <span style="font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;letter-spacing:0.04em;line-height:1">CATERPILLAR</span>
+      </div>
+      <div style="height:3px;background:#FFCD11;margin-top:12px;width:100%"></div>
+      <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:10px;font-weight:600">Post-Quantum Readiness</div>
+    </div>
+
+    <div style="padding:16px 16px 8px">
+      <div style="font-size:10.5px;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px">Organization</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px;border-radius:8px;background:rgba(255,205,17,0.1);border:1px solid rgba(255,205,17,0.28)">
+        <span style="width:36px;height:36px;border-radius:7px;background:#FFCD11;color:#141414;display:grid;place-items:center;font-weight:800;font-size:14px;flex:none;font-family:'Archivo',sans-serif">CAT</span>
+        <span style="display:grid;line-height:1.25">
+          <span style="font-size:13.5px;font-weight:700">Caterpillar Inc.</span>
+          <span style="font-size:11px;color:rgba(255,255,255,0.55)">NYSE: CAT · Industrials</span>
+        </span>
+      </div>
+    </div>
+
+    <nav style="padding:8px 12px;flex:1;overflow-y:auto">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+        <a onClick="{{ item.onClick }}" style="display:flex;align-items:center;gap:12px;padding:10px 11px;border-radius:7px;cursor:pointer;margin-bottom:3px;font-size:14px;font-weight:{{ item.weight }};color:{{ item.fg }};background:{{ item.bg }};box-shadow:{{ item.accent }};transition:background 140ms">
+          <i data-lucide="{{ item.icon }}" style="width:18px;height:18px;color:{{ item.iconColor }};flex:none"></i>
+          {{ item.label }}
+        </a>
+      </sc-for>
+    </nav>
+
+    <div style="padding:14px 18px;border-top:1px solid rgba(255,255,255,0.1)">
+      <div style="display:flex;align-items:center;gap:9px;font-size:11px;color:rgba(255,255,255,0.5);line-height:1.45">
+        <i data-lucide="shield" style="width:14px;height:14px;flex:none;color:#FFCD11"></i>
+        <span>Post-quantum readiness assessment · Q2 2026</span>
+      </div>
+    </div>
+  </aside>
+
+  <main style="flex:1;display:flex;flex-direction:column;height:100%;min-width:0">
+    <header style="height:68px;border-bottom:1px solid var(--line);background:#fff;display:flex;align-items:center;padding:0 30px;gap:18px;flex:none">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;color:var(--ink-3);font-weight:600;letter-spacing:0.02em">{{ viewCrumb }}</div>
+        <h1 style="font-size:22px;font-weight:800;letter-spacing:-0.01em;color:var(--ink);line-height:1.15">{{ viewTitle }}</h1>
+      </div>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#8A6D00;background:var(--cat-yellow-050);border:1px solid var(--cat-yellow-line);padding:6px 12px;border-radius:999px">
+        <i data-lucide="flask-conical" style="width:14px;height:14px"></i>Analyst estimate
+      </span>
+      <div style="text-align:right;line-height:1.2">
+        <div style="font-size:11px;color:var(--ink-3)">As of</div>
+        <div style="font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace">Q2 2026</div>
+      </div>
+    </header>
+
+    <div style="background:var(--cat-yellow-050);border-bottom:1px solid var(--cat-yellow-line);padding:10px 30px;display:flex;align-items:center;gap:10px;flex:none">
+      <i data-lucide="info" style="width:15px;height:15px;color:#8A6D00;flex:none"></i>
+      <span style="font-size:12.5px;color:var(--ink);line-height:1.5">Post-quantum readiness is <strong>not publicly disclosed</strong> by these organizations. Scores are analyst estimates inferred from observable signals (public crypto posture, NIST / CNSA alignment, cloud platforms, certifications, disclosures) and carry a stated confidence. Use them as a directional planning aid — not as audited fact.</span>
+    </div>
+
+    <div style="flex:1;overflow-y:auto">
+
+      <!-- ============== START HERE ============== -->
+      <sc-if value="{{ isStart }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:30px;display:grid;gap:24px;max-width:1180px">
+        <div style="background:#141414;border-radius:14px;padding:34px 36px 34px 40px;color:#fff;position:relative;overflow:hidden;border-left:6px solid #FFCD11">
+          <div style="position:absolute;top:-50px;right:-40px;width:190px;height:190px;background:#FFCD11;opacity:0.12;transform:rotate(45deg)"></div>
+          <div style="position:relative;max-width:780px">
+            <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#FFCD11;font-weight:700">For executives · Start here</div>
+            <h2 style="font-size:34px;font-weight:800;letter-spacing:-0.01em;line-height:1.1;margin:10px 0 14px">The encryption that protects our data has an expiration date.</h2>
+            <p style="font-size:16px;line-height:1.65;color:rgba(255,255,255,0.82);margin:0">Quantum computers, once powerful enough, will break the cryptography (RSA and elliptic-curve) that secures today's networks, software updates, and stored data. Governments have already published the replacement standards. This dashboard shows <strong style="color:#fff">how ready Caterpillar is for that transition</strong>, how we compare to competitors, and where our most critical suppliers stand — so leadership can act before the deadline, not after a breach.</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px">
+            <div style="width:42px;height:42px;border-radius:10px;background:var(--rk-high-bg);display:grid;place-items:center;margin-bottom:14px"><i data-lucide="cpu" style="width:22px;height:22px;color:var(--rk-high)"></i></div>
+            <h3 style="font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px">The threat</h3>
+            <p style="font-size:14px;line-height:1.6;color:var(--ink-2);margin:0">A future quantum computer could crack the math behind today's encryption in hours. Every system that relies on it — VPNs, websites, signed firmware, stored secrets — becomes vulnerable at once.</p>
+          </div>
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px">
+            <div style="width:42px;height:42px;border-radius:10px;background:var(--warn-bg);display:grid;place-items:center;margin-bottom:14px"><i data-lucide="alarm-clock" style="width:22px;height:22px;color:var(--warn)"></i></div>
+            <h3 style="font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px">Why it matters now</h3>
+            <p style="font-size:14px;line-height:1.6;color:var(--ink-2);margin:0"><strong>"Harvest now, decrypt later."</strong> Adversaries can steal encrypted data today and decrypt it once quantum computers arrive. Caterpillar's designs, IP, and contracts must stay secret for decades — so the clock has already started.</p>
+          </div>
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px">
+            <div style="width:42px;height:42px;border-radius:10px;background:var(--ok-bg);display:grid;place-items:center;margin-bottom:14px"><i data-lucide="circle-check-big" style="width:22px;height:22px;color:var(--ok)"></i></div>
+            <h3 style="font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px">What good looks like</h3>
+            <p style="font-size:14px;line-height:1.6;color:var(--ink-2);margin:0">Know where we use cryptography, be able to swap algorithms quickly ("crypto-agility"), protect long-life data first, and hold critical suppliers to a credible migration plan — well ahead of the 2030–2035 deadlines.</p>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 26px">
+          <h3 style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px">How to use this dashboard</h3>
+          <p style="font-size:13.5px;color:var(--ink-2);margin:0 0 18px">Each section answers one executive question. Click a card to jump in.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+            <sc-for list="{{ guideCards }}" as="g" hint-placeholder-count="6">
+              <a onClick="{{ g.onClick }}" style="display:flex;gap:14px;padding:16px;border:1px solid var(--line);border-radius:10px;cursor:pointer;background:#fff;transition:border-color 140ms,box-shadow 140ms" style-hover="border-color:#FFCD11;box-shadow:0 2px 10px rgba(20,20,20,0.08)">
+                <span style="width:40px;height:40px;border-radius:9px;background:var(--canvas);display:grid;place-items:center;flex:none"><i data-lucide="{{ g.icon }}" style="width:20px;height:20px;color:var(--ink)"></i></span>
+                <span style="display:grid;gap:3px">
+                  <span style="font-size:14.5px;font-weight:700;color:var(--ink)">{{ g.title }}</span>
+                  <span style="font-size:13px;color:var(--ink-2);line-height:1.45">{{ g.desc }}</span>
+                </span>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 26px">
+          <h3 style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px">How to read the readiness scores</h3>
+          <p style="font-size:13.5px;color:var(--ink-2);margin:0 0 18px">Every organization is placed on a 0–100 scale and one of five maturity stages. Higher is better.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px">
+            <sc-for list="{{ stageLegend }}" as="s" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:8px;padding:9px 13px;flex:1;min-width:170px">
+                <span style="width:11px;height:11px;border-radius:50%;background:{{ s.color }};flex:none"></span>
+                <span style="display:grid;line-height:1.25">
+                  <span style="font-size:13px;font-weight:700;color:var(--ink)">{{ s.name }}</span>
+                  <span style="font-size:11.5px;color:var(--ink-3);font-family:'IBM Plex Mono',monospace">{{ s.range }}</span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;background:var(--canvas);border-radius:9px;padding:14px 16px">
+            <i data-lucide="triangle-alert" style="width:17px;height:17px;color:#8A6D00;flex:none;margin-top:1px"></i>
+            <span style="font-size:13px;color:var(--ink-2);line-height:1.55"><strong>Confidence labels matter.</strong> A score marked <em>Low confidence</em> rests on thin public signal — treat it as a prompt to ask the organization directly, not as a verdict. Nothing here uses confidential or organization-supplied data.</span>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============== OVERVIEW ============== -->
+      <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:30px;display:grid;gap:20px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(208px,1fr));gap:18px">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+            <div style="background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:18px 18px 16px;border-top:3px solid {{ k.color }}">
+              <div style="display:flex;align-items:center;gap:8px">
+                <i data-lucide="{{ k.icon }}" style="width:16px;height:16px;color:var(--ink-3)"></i>
+                <span style="font-size:12.5px;color:var(--ink-2);font-weight:600">{{ k.label }}</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:8px;margin-top:12px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:600;color:{{ k.color }};letter-spacing:-0.01em">{{ k.value }}</span>
+                <span style="font-size:13px;color:var(--ink-3);font-weight:600">{{ k.unit }}</span>
+              </div>
+              <div style="font-size:12px;color:var(--ink-3);margin-top:7px;line-height:1.45">{{ k.foot }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:24px">
+            <h3 style="font-size:16px;font-weight:700;color:var(--ink)">Caterpillar readiness profile</h3>
+            <div style="font-size:12.5px;color:var(--ink-2);margin-top:2px;margin-bottom:20px">Composite of six post-quantum migration dimensions</div>
+            <div style="display:flex;align-items:center;gap:24px;margin-bottom:20px">
+              <div style="position:relative;width:130px;height:130px;flex:none;border-radius:50%;background:conic-gradient({{ catGaugeColor }} {{ catGaugeDeg }},#ECECEA 0);display:grid;place-items:center">
+                <div style="width:98px;height:98px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center">
+                  <div>
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:33px;font-weight:600;color:var(--ink);line-height:1">{{ catOverall }}</div>
+                    <div style="font-size:10px;color:var(--ink-3);letter-spacing:0.05em">/ 100</div>
+                  </div>
+                </div>
+              </div>
+              <div style="flex:1">
+                <span style="display:inline-block;font-size:12.5px;font-weight:700;color:#fff;background:{{ catGaugeColor }};padding:4px 12px;border-radius:999px">{{ catStage }}</span>
+                <div style="font-size:13.5px;color:var(--ink-2);line-height:1.55;margin-top:10px">Strong IT governance and a heavy cloud footprint, but cryptographic discovery, crypto-agility, and the vast OT / telematics estate remain largely unaddressed.</div>
+                <div style="font-size:12px;color:var(--ink-3);margin-top:8px">Confidence: <strong style="color:var(--warn)">Low</strong> · peer rank <strong style="color:var(--ink)">#{{ catRank }} of 6</strong></div>
+              </div>
+            </div>
+            <div style="display:grid;gap:11px">
+              <sc-for list="{{ catDims }}" as="d" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:1fr 42px;align-items:center;gap:12px">
+                  <div>
+                    <div style="font-size:12.5px;color:var(--ink);margin-bottom:5px">{{ d.name }}</div>
+                    <div style="height:8px;background:#ECECEA;border-radius:99px;overflow:hidden">
+                      <div style="width:{{ d.barW }};height:100%;background:{{ d.color }};border-radius:99px;transition:width 750ms cubic-bezier(0.2,0,0,1)"></div>
+                    </div>
+                  </div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--ink-2);text-align:right">{{ d.score }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:var(--canvas);border:1px solid var(--line);border-radius:12px;padding:24px">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+              <i data-lucide="lightbulb" style="width:18px;height:18px;color:#8A6D00"></i>
+              <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#8A6D00">Why this matters</span>
+            </div>
+            <h4 style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3">A "42" is not a grade — it's a head start that isn't being used yet.</h4>
+            <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0 0 12px">Caterpillar has the governance muscle to migrate well, but the work hasn't started in earnest. The weakest dimensions — <strong>algorithm adoption</strong> and <strong>crypto-agility</strong> — are exactly the ones that take the longest to fix across machines and embedded systems.</p>
+            <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0">The single highest-value move right now: <strong>inventory where we use cryptography and identify our longest-life secrets.</strong> You can't protect what you can't see, and the data stolen today is the data decrypted in 2032.</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:24px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <h3 style="font-size:16px;font-weight:700;color:var(--ink)">Peer benchmark</h3>
+              <a onClick="{{ goBench }}" style="font-size:12.5px;font-weight:700;color:var(--info);cursor:pointer;display:inline-flex;align-items:center;gap:4px">Detail<i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
+            </div>
+            <div style="font-size:12.5px;color:var(--ink-2);margin-top:2px;margin-bottom:18px">Estimated readiness · heavy-equipment sector</div>
+            <div style="display:grid;gap:11px">
+              <sc-for list="{{ companies }}" as="c" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:138px 1fr 30px;align-items:center;gap:12px">
+                  <span style="font-size:12.5px;font-weight:{{ c.weight }};color:{{ c.nameColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.rankLabel }} {{ c.name }}</span>
+                  <div style="height:18px;background:var(--sunken);border-radius:4px;overflow:hidden;position:relative">
+                    <div style="width:{{ c.barW }};height:100%;background:{{ c.color }};border-radius:4px;{{ c.barOutline }};transition:width 750ms cubic-bezier(0.2,0,0,1)"></div>
+                  </div>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);text-align:right">{{ c.score }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:24px">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <h3 style="font-size:16px;font-weight:700;color:var(--ink)">Third-party exposure</h3>
+              <a onClick="{{ goTp }}" style="font-size:12.5px;font-weight:700;color:var(--info);cursor:pointer;display:inline-flex;align-items:center;gap:4px">Detail<i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
+            </div>
+            <div style="font-size:12.5px;color:var(--ink-2);margin-top:2px;margin-bottom:16px">{{ tpCount }} observable relationships scored on criticality &amp; readiness</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px">
+              <div style="background:var(--rk-crit-bg);border-radius:9px;padding:13px">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--rk-crit)">{{ exposureCount }}</div>
+                <div style="font-size:11.5px;color:#5e2520;line-height:1.35;margin-top:2px">Critical / High vendors below 65 readiness</div>
+              </div>
+              <div style="background:var(--ok-bg);border-radius:9px;padding:13px">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--ok)">{{ readyCount }}</div>
+                <div style="font-size:11.5px;color:#1d5a3a;line-height:1.35;margin-top:2px">Vendors quantum-ready (≥80)</div>
+              </div>
+              <div style="background:var(--canvas);border-radius:9px;padding:13px">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--ink)">{{ medianTp }}</div>
+                <div style="font-size:11.5px;color:var(--ink-2);line-height:1.35;margin-top:2px">Median vendor readiness</div>
+              </div>
+            </div>
+            <div style="font-size:11.5px;font-weight:800;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Highest exposure</div>
+            <div style="display:grid;gap:9px">
+              <sc-for list="{{ topExposed }}" as="t" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:11px;font-weight:700;color:#fff;background:{{ t.critColor }};padding:2px 8px;border-radius:999px;flex:none">{{ t.crit }}</span>
+                  <span style="font-size:13px;color:var(--ink);flex:1">{{ t.name }}</span>
+                  <span style="font-size:11.5px;color:var(--ink-3)">{{ t.cat }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:{{ t.color }};width:28px;text-align:right">{{ t.score }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============== CATERPILLAR ============== -->
+      <sc-if value="{{ isCat }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:30px;display:grid;gap:20px">
+        <div style="background:#141414;border-radius:14px;padding:28px 30px;color:#fff;display:flex;align-items:center;gap:30px;position:relative;overflow:hidden">
+          <div style="position:relative;width:148px;height:148px;flex:none;border-radius:50%;background:conic-gradient({{ catGaugeColor }} {{ catGaugeDeg }},rgba(255,255,255,0.14) 0);display:grid;place-items:center">
+            <div style="width:112px;height:112px;border-radius:50%;background:#141414;display:grid;place-items:center;text-align:center">
+              <div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:40px;font-weight:600;line-height:1">{{ catOverall }}</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:0.06em">/ 100</div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#FFCD11;font-weight:700">Post-quantum readiness</div>
+            <h2 style="font-size:30px;font-weight:800;letter-spacing:-0.01em;margin:5px 0 9px">Caterpillar is in the Assessing stage</h2>
+            <p style="font-size:14.5px;color:rgba(255,255,255,0.8);line-height:1.6;max-width:700px;margin:0">Strong enterprise IT governance and a heavy cloud footprint give Caterpillar a credible starting position. But a formal cryptographic inventory, crypto-agility across its OT, embedded and telematics estate, and adoption of NIST's finalized PQC algorithms are not yet evident. The gap to quantum-ready is wide, and the engineering-IP attack surface is unusually long-lived.</p>
+            <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+              <span style="font-size:12px;font-weight:600;background:rgba(255,255,255,0.12);padding:6px 12px;border-radius:999px">Stage 2 of 5 · Assessing</span>
+              <span style="font-size:12px;font-weight:700;background:#FFCD11;color:#141414;padding:6px 12px;border-radius:999px">{{ catGapPts }}-pt gap to ready</span>
+              <span style="font-size:12px;font-weight:600;background:rgba(255,255,255,0.12);padding:6px 12px;border-radius:999px">Confidence: Low</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px;align-items:start">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:24px">
+            <h3 style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px">Readiness by dimension</h3>
+            <div style="font-size:12.5px;color:var(--ink-2);margin-bottom:22px">Each scored 0–100 against a crypto-agility maturity rubric</div>
+            <div style="display:grid;gap:18px">
+              <sc-for list="{{ catDims }}" as="d" hint-placeholder-count="6">
+                <div>
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                    <span style="font-size:13.5px;color:var(--ink);font-weight:600">{{ d.name }}</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:{{ d.color }}">{{ d.score }} · {{ d.stage }}</span>
+                  </div>
+                  <div style="height:10px;background:#ECECEA;border-radius:99px;overflow:hidden">
+                    <div style="width:{{ d.barW }};height:100%;background:{{ d.color }};border-radius:99px;transition:width 750ms cubic-bezier(0.2,0,0,1)"></div>
+                  </div>
+                  <div style="font-size:12px;color:var(--ink-3);margin-top:6px;line-height:1.45">{{ d.note }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:grid;gap:20px">
+            <div style="background:var(--canvas);border:1px solid var(--line);border-radius:12px;padding:22px">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+                <i data-lucide="lightbulb" style="width:18px;height:18px;color:#8A6D00"></i>
+                <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#8A6D00">Why this matters</span>
+              </div>
+              <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0 0 12px">Think of these six dimensions as a chain. <strong>Governance</strong> (our strongest) sets direction, but readiness is only as good as the weakest link — and ours are the hands-on ones: knowing where crypto lives and being able to change it.</p>
+              <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0">Machines, controllers, and telematics units stay in the field for <strong>10–20 years</strong>. Whatever crypto ships in them today, we live with for a long time — so embedded migration must start now, even though the deadline looks far off.</p>
+            </div>
+            <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:24px">
+              <h3 style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px">Recommended migration roadmap</h3>
+              <div style="font-size:12.5px;color:var(--ink-2);margin-bottom:20px">A defensible path to quantum-ready</div>
+              <div style="display:grid;gap:0">
+                <sc-for list="{{ roadmap }}" as="r" hint-placeholder-count="5">
+                  <div style="display:grid;grid-template-columns:18px 1fr;gap:14px">
+                    <div style="display:flex;flex-direction:column;align-items:center">
+                      <span style="width:13px;height:13px;border-radius:50%;background:{{ r.dot }};border:2px solid #fff;box-shadow:0 0 0 2px {{ r.dot }};flex:none;margin-top:3px"></span>
+                      <span style="width:2px;flex:1;background:#ECECEA;{{ r.lineHide }}"></span>
+                    </div>
+                    <div style="padding-bottom:18px">
+                      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:var(--ink)">{{ r.window }}</span>
+                        <span style="font-size:10.5px;font-weight:700;color:{{ r.statusColor }};background:{{ r.statusBg }};padding:2px 8px;border-radius:999px">{{ r.status }}</span>
+                      </div>
+                      <div style="font-size:13.5px;font-weight:700;color:var(--ink);margin:5px 0 3px">{{ r.title }}</div>
+                      <div style="font-size:12.5px;color:var(--ink-2);line-height:1.5">{{ r.detail }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============== BENCHMARK ============== -->
+      <sc-if value="{{ isBench }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:30px;display:grid;gap:20px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px;align-items:start">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:26px">
+            <h3 style="font-size:17px;font-weight:700;color:var(--ink);margin-bottom:4px">Heavy-equipment sector — estimated readiness</h3>
+            <div style="font-size:12.5px;color:var(--ink-2);margin-bottom:24px">Caterpillar ranks <strong>#{{ catRank }} of 6</strong>. The whole sector trails technology and financial industries; no peer is quantum-ready.</div>
+            <div style="display:grid;gap:18px">
+              <sc-for list="{{ companies }}" as="c" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:210px 1fr 110px;align-items:center;gap:16px">
+                  <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:var(--ink-3);width:22px">{{ c.rankLabel }}</span>
+                    <span style="font-size:14px;font-weight:{{ c.weight }};color:{{ c.nameColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</span>
+                    <sc-if value="{{ c.isCat }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:10px;font-weight:800;color:#141414;background:#FFCD11;padding:1px 7px;border-radius:999px">CAT</span>
+                    </sc-if>
+                  </div>
+                  <div style="height:26px;background:var(--sunken);border-radius:5px;overflow:hidden;position:relative">
+                    <div style="width:{{ c.barW }};height:100%;background:{{ c.color }};border-radius:5px;{{ c.barOutline }};display:flex;align-items:center;justify-content:flex-end;padding-right:8px;transition:width 800ms cubic-bezier(0.2,0,0,1)">
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#fff">{{ c.score }}</span>
+                    </div>
+                  </div>
+                  <span style="font-size:12px;font-weight:600;color:{{ c.color }};background:{{ c.bg }};padding:3px 10px;border-radius:999px;text-align:center">{{ c.stage }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:var(--canvas);border:1px solid var(--line);border-radius:12px;padding:24px">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+              <i data-lucide="lightbulb" style="width:18px;height:18px;color:#8A6D00"></i>
+              <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#8A6D00">Why this matters</span>
+            </div>
+            <h4 style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3">Being mid-pack in a slow field is still a risk — not a comfort.</h4>
+            <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0 0 12px">The benchmark answers "are we behind our competitors?" The honest answer: the entire sector is behind. No rival has solved this, which means <strong>there's a real window to lead</strong> — quantum-safe practices can become a procurement and trust differentiator with customers and dealers.</p>
+            <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0">It also means we can't lean on suppliers or peers to drag us forward. The pull will come from <strong>regulators, large customers, and our cloud providers</strong> — covered in the timeline and third-party views.</p>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);overflow:hidden">
+          <div style="padding:18px 24px;border-bottom:1px solid var(--line);font-size:15px;font-weight:700;color:var(--ink)">Competitor detail</div>
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr style="background:var(--canvas);text-align:left;color:var(--ink-2);font-size:11.5px;text-transform:uppercase;letter-spacing:0.04em">
+                <th style="padding:11px 24px;font-weight:700">Company</th>
+                <th style="padding:11px 14px;font-weight:700">Readiness</th>
+                <th style="padding:11px 14px;font-weight:700">Stage</th>
+                <th style="padding:11px 14px;font-weight:700">Confidence</th>
+                <th style="padding:11px 24px;font-weight:700">Observable signal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ companies }}" as="c" hint-placeholder-count="6">
+                <tr style="border-top:1px solid var(--line);background:{{ c.rowBg }}">
+                  <td style="padding:13px 24px;font-weight:{{ c.weight }};color:var(--ink)">{{ c.name }}</td>
+                  <td style="padding:13px 14px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:{{ c.color }}">{{ c.score }}</td>
+                  <td style="padding:13px 14px"><span style="font-size:12px;font-weight:600;color:{{ c.color }};background:{{ c.bg }};padding:2px 9px;border-radius:999px">{{ c.stage }}</span></td>
+                  <td style="padding:13px 14px"><span style="display:inline-flex;align-items:center;gap:6px;color:var(--ink-2)"><span style="width:8px;height:8px;border-radius:50%;background:{{ c.confColor }}"></span>{{ c.conf }}</span></td>
+                  <td style="padding:13px 24px;color:var(--ink-2);line-height:1.45;max-width:430px">{{ c.note }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============== THIRD PARTIES ============== -->
+      <sc-if value="{{ isTp }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:30px;display:grid;gap:20px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px;align-items:start">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:24px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+              <div>
+                <h3 style="font-size:16px;font-weight:700;color:var(--ink)">Exposure quadrant</h3>
+                <div style="font-size:12.5px;color:var(--ink-2);margin-top:3px">Relationship criticality × PQC readiness. Hover a vendor for detail; click a level to filter.</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+              <sc-for list="{{ quadLegend }}" as="l" hint-placeholder-count="4">
+                <button onClick="{{ l.onClick }}" style="display:inline-flex;align-items:center;gap:7px;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.fg }};padding:5px 11px;border-radius:999px;cursor:pointer">
+                  <span style="width:10px;height:10px;border-radius:50%;background:{{ l.dot }}"></span>{{ l.label }}
+                </button>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:14px;margin-top:18px">
+              <div style="display:flex;align-items:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3)">PQC readiness →</span></div>
+              <div style="flex:1">
+                <div style="position:relative;height:400px;border-left:2px solid var(--line-2);border-bottom:2px solid var(--line-2)">
+                  <div style="position:absolute;left:0;top:0;width:50%;height:50%;border-right:1px dashed var(--line-2);border-bottom:1px dashed var(--line-2)"></div>
+                  <div style="position:absolute;right:0;bottom:0;width:50%;height:50%;background:rgba(127,29,29,0.06)"></div>
+                  <span style="position:absolute;right:12px;bottom:10px;font-size:10.5px;font-weight:800;color:var(--rk-crit);letter-spacing:0.04em;text-transform:uppercase">Exposure zone</span>
+                  <span style="position:absolute;right:12px;top:10px;font-size:10.5px;font-weight:700;color:var(--ok);letter-spacing:0.04em;text-transform:uppercase">Critical &amp; ready</span>
+                  <sc-for list="{{ quadPoints }}" as="p" hint-placeholder-count="16">
+                    <div onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="position:absolute;left:{{ p.left }};bottom:{{ p.bottom }};transform:translate(-50%,50%);display:flex;align-items:center;gap:5px;z-index:{{ p.z }};opacity:{{ p.opacity }};cursor:pointer;transition:opacity 160ms">
+                      <span style="width:13px;height:13px;border-radius:50%;background:{{ p.color }};border:2px solid #fff;box-shadow:0 1px 3px rgba(20,20,20,0.35);flex:none"></span>
+                      <span style="font-size:10.5px;font-weight:600;color:var(--ink);white-space:nowrap;background:rgba(255,255,255,0.78);padding:0 3px;border-radius:3px">{{ p.short }}</span>
+                      <sc-if value="{{ p.showTip }}" hint-placeholder-val="{{ false }}">
+                        <div style="position:absolute;{{ p.tipPos }};left:50%;transform:translateX(-50%);width:200px;background:#141414;color:#fff;border-radius:9px;padding:11px 13px;box-shadow:0 8px 24px rgba(20,20,20,0.3);z-index:50">
+                          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px">
+                            <span style="font-size:13px;font-weight:700">{{ p.name }}</span>
+                            <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:{{ p.tipScoreColor }}">{{ p.score }}</span>
+                          </div>
+                          <div style="display:flex;gap:6px;margin-bottom:7px"><span style="font-size:10px;font-weight:700;color:#141414;background:{{ p.color }};padding:1px 7px;border-radius:999px">{{ p.crit }}</span><span style="font-size:10.5px;color:rgba(255,255,255,0.6)">{{ p.cat }}</span></div>
+                          <div style="font-size:11.5px;line-height:1.45;color:rgba(255,255,255,0.82)">{{ p.note }}</div>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="text-align:center;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);margin-top:10px">Relationship criticality to Caterpillar →</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--canvas);border:1px solid var(--line);border-radius:12px;padding:24px">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+              <i data-lucide="lightbulb" style="width:18px;height:18px;color:#8A6D00"></i>
+              <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#8A6D00">Why this matters</span>
+            </div>
+            <h4 style="font-size:16px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3">Our data is only as confidential as our weakest critical supplier.</h4>
+            <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0 0 12px">The lower-right "exposure zone" is where the danger concentrates: <strong>vendors we depend on heavily, who are not yet quantum-safe.</strong> The big cloud providers are actually ahead of us — the risk sits with embedded, telematics, and mid-tier operational suppliers.</p>
+            <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0 0 12px">Whatever confidential data those vendors hold inherits <em>their</em> readiness, not ours. A perfectly migrated Caterpillar still leaks if a critical supplier is breached and harvested.</p>
+            <p style="font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:0">Action: put <strong>contractual PQC commitments and roadmaps</strong> into critical-vendor agreements, and reduce concentration on any single lagging provider.</p>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);overflow:hidden">
+          <div style="padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <div style="font-size:15px;font-weight:700;color:var(--ink);margin-right:auto">Third-party register ({{ tpCount }})</div>
+            <div style="display:flex;gap:6px;background:var(--canvas);padding:4px;border-radius:9px">
+              <sc-for list="{{ filterTabs }}" as="f" hint-placeholder-count="5">
+                <button onClick="{{ f.onClick }}" style="border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:6px;color:{{ f.fg }};background:{{ f.bg }};box-shadow:{{ f.shadow }}">{{ f.label }} <span style="opacity:0.55">{{ f.count }}</span></button>
+              </sc-for>
+            </div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr style="background:var(--canvas);text-align:left;color:var(--ink-2);font-size:11.5px;text-transform:uppercase;letter-spacing:0.04em">
+                <th style="padding:11px 24px;font-weight:700">Vendor</th>
+                <th style="padding:11px 14px;font-weight:700">Category</th>
+                <th onClick="{{ sortCrit }}" style="padding:11px 14px;font-weight:700;cursor:pointer;user-select:none">Criticality {{ critArrow }}</th>
+                <th onClick="{{ sortReady }}" style="padding:11px 14px;font-weight:700;cursor:pointer;user-select:none;width:170px">PQC readiness {{ readyArrow }}</th>
+                <th style="padding:11px 14px;font-weight:700">Stage</th>
+                <th style="padding:11px 14px;font-weight:700">Conf.</th>
+                <th style="padding:11px 24px;font-weight:700">Observable signal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ thirdParties }}" as="t" hint-placeholder-count="16">
+                <tr style="border-top:1px solid var(--line);background:{{ t.rowBg }}">
+                  <td style="padding:13px 24px;font-weight:700;color:var(--ink);white-space:nowrap">{{ t.name }}</td>
+                  <td style="padding:13px 14px;color:var(--ink-2);white-space:nowrap">{{ t.cat }}</td>
+                  <td style="padding:13px 14px"><span style="font-size:11.5px;font-weight:700;color:#fff;background:{{ t.critColor }};padding:2px 9px;border-radius:999px">{{ t.crit }}</span></td>
+                  <td style="padding:13px 14px">
+                    <div style="display:flex;align-items:center;gap:9px">
+                      <div style="flex:1;height:8px;background:#ECECEA;border-radius:99px;overflow:hidden;min-width:60px">
+                        <div style="width:{{ t.barW }};height:100%;background:{{ t.color }};border-radius:99px;transition:width 700ms cubic-bezier(0.2,0,0,1)"></div>
+                      </div>
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink);width:22px;text-align:right">{{ t.score }}</span>
+                    </div>
+                  </td>
+                  <td style="padding:13px 14px"><span style="font-size:11.5px;font-weight:600;color:{{ t.color }};background:{{ t.bg }};padding:2px 9px;border-radius:999px;white-space:nowrap">{{ t.stage }}</span></td>
+                  <td style="padding:13px 14px"><span style="display:inline-flex;align-items:center;gap:5px;color:var(--ink-2);font-size:12px"><span style="width:7px;height:7px;border-radius:50%;background:{{ t.confColor }}"></span>{{ t.conf }}</span></td>
+                  <td style="padding:13px 24px;color:var(--ink-2);line-height:1.4;max-width:330px;font-size:12px">{{ t.note }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============== TIMELINE ============== -->
+      <sc-if value="{{ isTimeline }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:30px;display:grid;gap:20px">
+        <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:28px 30px">
+          <h3 style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px">The post-quantum timeline</h3>
+          <div style="font-size:13px;color:var(--ink-2);margin-bottom:34px">From the first warnings to hard regulatory deadlines. Click any milestone to see what happened and what it means for Caterpillar.</div>
+          <div style="position:relative;padding:0 6px">
+            <div style="position:absolute;left:30px;right:30px;top:33px;height:3px;background:var(--line-2);border-radius:99px;z-index:0"></div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;position:relative;z-index:1">
+              <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="9">
+                <div onClick="{{ t.onClick }}" style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;cursor:pointer;text-align:center">
+                  <span style="display:block;height:18px;line-height:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:{{ t.yearColor }}">{{ t.year }}</span>
+                  <span style="width:16px;height:16px;border-radius:50%;background:{{ t.dotBg }};border:3px solid {{ t.color }};margin:8px 0 9px;box-shadow:{{ t.ring }}"></span>
+                  <span style="font-size:10px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:{{ t.tagColor }};line-height:1.25">{{ t.tag }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:20px;padding:11px 15px;background:var(--cat-yellow-050);border:1px solid var(--cat-yellow-line);border-radius:9px">
+            <span style="width:13px;height:13px;border-radius:50%;background:#FFCD11;border:2px solid #141414;flex:none"></span>
+            <span style="font-size:12.5px;color:var(--ink);line-height:1.45"><strong>Caterpillar today — Assessing (2026).</strong> The standards are final and providers are shipping support; the work of turning it on and migrating the fleet has barely begun.</span>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px;align-items:start">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:26px;border-left:5px solid {{ tlSel.color }}">
+            <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;color:{{ tlSel.color }};line-height:1">{{ tlSel.year }}</span>
+              <h3 style="font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-0.01em">{{ tlSel.title }}</h3>
+            </div>
+            <p style="font-size:14.5px;line-height:1.6;color:var(--ink-2);margin:16px 0 0">{{ tlSel.detail }}</p>
+          </div>
+          <div style="background:var(--canvas);border:1px solid var(--line);border-radius:12px;padding:24px">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+              <i data-lucide="lightbulb" style="width:18px;height:18px;color:#8A6D00"></i>
+              <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#8A6D00">What this means for Caterpillar</span>
+            </div>
+            <p style="font-size:14px;line-height:1.62;color:var(--ink-2);margin:0">{{ tlSel.impact }}</p>
+          </div>
+        </div>
+
+        <div style="background:var(--canvas);border:1px solid var(--line);border-radius:12px;padding:20px 24px;display:flex;gap:12px;align-items:flex-start">
+          <i data-lucide="alarm-clock" style="width:20px;height:20px;color:var(--rk-crit);flex:none;margin-top:2px"></i>
+          <div>
+            <div style="font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:4px">The deadline is closer than the calendar suggests</div>
+            <p style="font-size:13.5px;line-height:1.6;color:var(--ink-2);margin:0">2030–2035 sounds distant, but machines sold today stay in service that long, and data stolen today can be decrypted then. For long-life assets and long-secret data, <strong>the practical deadline is now.</strong></p>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============== EXECUTIVE QUESTIONS ============== -->
+      <sc-if value="{{ isQuestions }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:30px;display:grid;gap:22px;max-width:1240px">
+        <div style="background:#141414;border-radius:12px;padding:24px 28px;color:#fff;display:flex;gap:16px;align-items:flex-start">
+          <i data-lucide="clipboard-list" style="width:24px;height:24px;color:#FFCD11;flex:none;margin-top:2px"></i>
+          <div>
+            <h3 style="font-size:19px;font-weight:800;margin-bottom:6px">Questions for the leadership team</h3>
+            <p style="font-size:14px;line-height:1.6;color:rgba(255,255,255,0.8);margin:0;max-width:840px">Post-quantum readiness is a business-risk decision, not just an IT project. Use these prompts to pressure-test our own posture and what we must demand of critical partners. If we can't answer one confidently, that's where to direct the next assessment.</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px">
+          <sc-for list="{{ questionGroups }}" as="q" hint-placeholder-count="5">
+            <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:24px;{{ q.span }}">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+                <span style="width:40px;height:40px;border-radius:9px;background:var(--canvas);display:grid;place-items:center;flex:none"><i data-lucide="{{ q.icon }}" style="width:21px;height:21px;color:var(--ink)"></i></span>
+                <h4 style="font-size:17px;font-weight:700;color:var(--ink)">{{ q.title }}</h4>
+              </div>
+              <div style="font-size:12.5px;font-style:italic;color:#8A6D00;font-weight:600;margin-bottom:16px;padding-left:52px">{{ q.stakes }}</div>
+              <div style="display:grid;gap:11px">
+                <sc-for list="{{ q.items }}" as="qi" hint-placeholder-count="3">
+                  <div style="display:flex;gap:11px;align-items:flex-start">
+                    <i data-lucide="circle-help" style="width:17px;height:17px;color:var(--cat-yellow-700);flex:none;margin-top:2px"></i>
+                    <span style="font-size:13.5px;line-height:1.5;color:var(--ink)">{{ qi }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:linear-gradient(100deg,#141414,#222226);border-radius:12px;padding:26px 30px;color:#fff">
+          <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#FFCD11;font-weight:700;margin-bottom:6px">The bottom line</div>
+          <h3 style="font-size:21px;font-weight:800;margin-bottom:18px;letter-spacing:-0.01em">Three ways this lands on the business</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><i data-lucide="lock" style="width:18px;height:18px;color:#FFCD11"></i><span style="font-size:15px;font-weight:700">Confidentiality</span></div>
+              <p style="font-size:13px;line-height:1.55;color:rgba(255,255,255,0.78);margin:0">If designs, pricing, and IP are decrypted by a competitor or state actor, we lose the differentiation that took decades to build — quietly, with no breach alarm.</p>
+            </div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><i data-lucide="file-check" style="width:18px;height:18px;color:#FFCD11"></i><span style="font-size:15px;font-weight:700">Integrity</span></div>
+              <p style="font-size:13px;line-height:1.55;color:rgba(255,255,255,0.78);margin:0">If software and firmware signatures can be forged, the trust in every update breaks — a safety, recall, and product-liability problem across the connected fleet.</p>
+            </div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><i data-lucide="trending-up" style="width:18px;height:18px;color:#FFCD11"></i><span style="font-size:15px;font-weight:700">Market position</span></div>
+              <p style="font-size:13px;line-height:1.55;color:rgba(255,255,255,0.78);margin:0">Regulators and large customers will require quantum-safe practices. Migrating early is a credential; migrating late is a contract risk and a competitive disadvantage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view:"start", tpFilter:"All", tpSort:"exposure", tpDir:"default", mounted:false, quadFilter:"All", hoverId:null, tlSel:3 };
+
+  stage(s){ if(s>=80)return "Quantum-Ready"; if(s>=60)return "Migrating"; if(s>=45)return "Planning"; if(s>=30)return "Assessing"; return "Unaware"; }
+  sColor(s){ if(s>=80)return "#15803D"; if(s>=60)return "#0E7490"; if(s>=45)return "#B45309"; if(s>=30)return "#C2410C"; return "#7F1D1D"; }
+  sBg(s){ if(s>=80)return "#E7F5EC"; if(s>=60)return "#E0F2F1"; if(s>=45)return "#FCEFD9"; if(s>=30)return "#FBE6DC"; return "#F6E2E1"; }
+  critRank(c){ return {Critical:4,High:3,Medium:2,Low:1}[c]||0; }
+  critColor(c){ return {Critical:"#7F1D1D",High:"#B91C1C",Medium:"#B45309",Low:"#15803D"}[c]; }
+  confColor(c){ return {High:"#15803D",Medium:"#B45309",Low:"#A1A1AA"}[c]; }
+
+  componentDidMount(){ this._icons(); setTimeout(()=>this.setState({mounted:true}),80); }
+  componentDidUpdate(){ this._icons(); }
+  _icons(){ const run=(n)=>{ if(window.lucide&&window.lucide.createIcons){ try{ window.lucide.createIcons(); }catch(e){} } else if(n>0){ setTimeout(()=>run(n-1),120); } }; setTimeout(()=>run(20),0); }
+
+  renderVals(){
+    const view=this.state.view, mounted=this.state.mounted;
+    const nav=(v)=>()=>this.setState({view:v});
+
+    const navDefs=[
+      ["start","Start here","compass"],
+      ["overview","Overview","layout-dashboard"],
+      ["cat","Caterpillar profile","gauge"],
+      ["bench","Peer benchmark","bar-chart-3"],
+      ["tp","Third parties","building-2"],
+      ["timeline","PQC timeline","milestone"],
+      ["questions","Executive questions","clipboard-list"],
+    ];
+    const navItems=navDefs.map(([id,label,icon])=>{
+      const on=view===id;
+      return { label, icon, onClick:nav(id),
+        weight:on?700:500, fg:on?"#fff":"rgba(255,255,255,0.72)",
+        bg:on?"rgba(255,205,17,0.13)":"transparent",
+        accent:on?"inset 3px 0 0 #FFCD11":"none",
+        iconColor:on?"#FFCD11":"rgba(255,255,255,0.6)" };
+    });
+    const titles={ start:["For executives","Start here — what this dashboard is for"],
+      overview:["Overview","Post-quantum readiness — overview"],
+      cat:["Caterpillar profile","Caterpillar Inc. — readiness profile"],
+      bench:["Peer benchmark","Heavy-equipment peer benchmark"],
+      tp:["Third parties","Third-party & supply-chain exposure"],
+      timeline:["Reference","Post-quantum cryptography timeline"],
+      questions:["Board & leadership","Critical questions for executives"] };
+
+    const guideCards=[
+      ["overview","layout-dashboard","Overview","The one-screen read on where we stand, how we rank, and our biggest exposure."],
+      ["cat","gauge","Caterpillar profile","Our readiness broken into six dimensions, with a recommended migration roadmap."],
+      ["bench","bar-chart-3","Peer benchmark","How Caterpillar compares to Komatsu, Deere, Hitachi, Volvo CE and Liebherr."],
+      ["tp","building-2","Third parties","Which suppliers hold our data and whether they're ready — the supply-chain risk."],
+      ["timeline","milestone","PQC timeline","The deadlines that matter, from NIST standards to the 2030–2035 cutoffs."],
+      ["questions","clipboard-list","Executive questions","Prompts to test our own posture and what we must require of partners."],
+    ].map(([v,icon,title,desc])=>({ icon, title, desc, onClick:nav(v) }));
+
+    const stageLegend=[
+      ["Unaware","0–29",this.sColor(20)],["Assessing","30–44",this.sColor(38)],
+      ["Planning","45–59",this.sColor(50)],["Migrating","60–79",this.sColor(70)],
+      ["Quantum-Ready","80–100",this.sColor(90)],
+    ].map(([name,range,color])=>({name,range,color}));
+
+    // Caterpillar
+    const catOverall=42;
+    const catDimsRaw=[
+      ["Cryptographic asset inventory",38,"Limited evidence of a managed crypto inventory across IT and OT."],
+      ["Crypto-agility of systems",34,"Many embedded / industrial systems cannot be re-keyed easily."],
+      ["NIST PQC algorithm adoption",22,"No public adoption of ML-KEM / ML-DSA in products or services."],
+      ["Harvest-now / decrypt-later mitigation",29,"Long-life IP not yet protected with quantum-safe encryption."],
+      ["Governance, policy & roadmap",56,"Mature enterprise risk function; PQC not yet a named program."],
+      ["Third-party & supply-chain assurance",40,"No public PQC clauses; reliant on cloud providers' roadmaps."],
+    ];
+    const catDims=catDimsRaw.map(([name,score,note])=>({ name, score, note,
+      barW:mounted?score+"%":"0%", color:this.sColor(score), stage:this.stage(score) }));
+
+    const statusMap={ "In progress":["#15803D","#E7F5EC"], "Planned":["#0E7490","#E0F2F1"], "Target":["#71717A","#F1F1EF"] };
+    const roadmapRaw=[
+      ["Now–2026","In progress","Stand up governance & crypto inventory","Name an executive owner, inventory cryptographic assets across IT, OT and products, and classify long-life data."],
+      ["2026–2027","Planned","Build crypto-agility & vendor assurance","Add PQC clauses to procurement, prioritize systems by data-lifetime, pilot hybrid TLS on external services."],
+      ["2027–2029","Planned","Migrate external PKI, TLS & code-signing","Adopt ML-KEM / ML-DSA on web, VPN and software-signing; rotate long-lived certificates."],
+      ["2029–2032","Planned","Address OT, embedded & telematics fleet","Phase quantum-safe firmware into connected machines — the slowest, highest-effort tier."],
+      ["By 2033","Target","Reach quantum-ready posture","Align with CNSA 2.0 exclusivity ahead of the NIST classical-crypto sunset."],
+    ];
+    const roadmap=roadmapRaw.map(([w,status,title,detail],i)=>({ window:w, status, title, detail,
+      dot:status==="In progress"?"#FFCD11":(status==="Target"?"#D4D4D8":"#0E7490"),
+      statusColor:statusMap[status][0], statusBg:statusMap[status][1],
+      lineHide:i===roadmapRaw.length-1?"display:none":"" }));
+
+    // companies
+    const compRaw=[
+      ["Caterpillar",42,"Low","Heavy cloud footprint and mature IT governance, but no public PQC posture and a vast long-life OT estate.",true],
+      ["John Deere",53,"Medium","Software-forward (precision ag) with a larger security org; crypto-agility likely ahead, no explicit PQC disclosures.",false],
+      ["Hitachi Constr. Machinery",51,"Medium","Benefits from parent Hitachi's quantum and cryptography R&D; OT migration still unaddressed.",false],
+      ["Volvo CE",47,"Medium","EU quantum-roadmap pressure via Volvo Group; early governance signals, limited product evidence.",false],
+      ["Komatsu",39,"Low","Smart Construction cloud reliance; minimal public security or PQC signal.",false],
+      ["Liebherr",33,"Low","Private group with little public security disclosure; assumed early-stage.",false],
+    ];
+    const companies=compRaw.map(c=>({name:c[0],score:c[1],conf:c[2],note:c[3],isCat:c[4]}))
+      .sort((a,b)=>b.score-a.score)
+      .map((c,i)=>({ ...c, rank:i+1, rankLabel:"#"+(i+1),
+        barW:mounted?c.score+"%":"0%", color:this.sColor(c.score), bg:this.sBg(c.score), stage:this.stage(c.score),
+        confColor:this.confColor(c.conf), weight:c.isCat?700:500,
+        nameColor:c.isCat?"#141414":"var(--ink)", rowBg:c.isCat?"#FFFBEB":"#fff",
+        barOutline:c.isCat?"box-shadow:inset 0 0 0 2px #141414":"" }));
+    const catRank=companies.find(c=>c.isCat).rank;
+
+    // timeline (2015-2035)
+    const Y0=2015,Y1=2035,span=Y1-Y0;
+    const pct=(y)=>((y-Y0)/span*100)+"%";
+    const tlRaw=[
+      [2015,"#52525B","NSA flags the quantum threat","The U.S. National Security Agency publicly signals that public-key cryptography must move to quantum-resistant algorithms.","Set the national-security clock ticking. Large enterprises like Caterpillar should have put PQC on the long-range technology radar here."],
+      [2016,"#52525B","NIST opens the PQC competition","NIST launches a global, multi-year competition to standardize quantum-resistant algorithms.","The replacement algorithms Caterpillar will eventually deploy were born in this process — worth tracking, not yet acting on."],
+      [2022,"#0E7490","First algorithms selected","NIST selects CRYSTALS-Kyber for key exchange and Dilithium / SPHINCS+ for digital signatures.","Vendors could start building quantum-safe products. \"We're waiting on standards\" stopped being a valid reason to delay planning."],
+      [2024,"#141414","Standards finalized — FIPS 203/204/205","NIST publishes the final post-quantum standards: ML-KEM, ML-DSA and SLH-DSA.","The starting gun for production migration. This is the baseline every vendor, customer and regulator now references — and the point from which Caterpillar's clock is measured."],
+      [2025,"#0E7490","CNSA 2.0: prefer post-quantum","U.S. guidance directs systems to begin preferring post-quantum algorithms; major software and cloud vendors ship support.","Caterpillar's cloud and software providers begin offering quantum-safe options. The task shifts from \"wait\" to \"turn it on and verify.\""],
+      [2027,"#0E7490","PQC default for new software & firmware","CNSA 2.0 expects new software and firmware to default to post-quantum cryptography.","Directly relevant to Caterpillar's products: new connected machines and firmware updates should ship quantum-safe from this point."],
+      [2030,"#B45309","Legacy crypto deprecated","NIST deprecates RSA-2048 and ECC-256; CNSA 2.0 becomes exclusive for software and firmware signing.","Running legacy cryptography past this point becomes an audit and compliance finding. Migration must already be well underway."],
+      [2033,"#B91C1C","Quantum-safe required across systems","CNSA 2.0 exclusivity extends across national-security systems and their suppliers.","Long-cycle assets — controllers, embedded units, telematics — must already be migrated. Because these take years, the planning deadline is far earlier than 2033."],
+      [2035,"#7F1D1D","Classical public-key disallowed","NIST disallows classical public-key cryptography; widely-cited window for a cryptographically-relevant quantum computer.","Any long-life data still protected by old cryptography is now considered exposed. Data Caterpillar must keep secret into the 2030s has to be quantum-safe well before this."],
+    ];
+    const sel=this.state.tlSel;
+    const tlTags=["Warning","Competition","Selected","Standards","Prefer PQC","Default","Deprecated","Required","Disallowed"];
+    const timeline=tlRaw.map((m,i)=>{ const on=i===sel; return { year:m[0], color:m[1], tag:tlTags[i],
+      onClick:()=>this.setState({tlSel:i}),
+      yearColor:on?"#141414":"#71717A", dotBg:on?m[1]:"#fff",
+      ring:on?"0 0 0 4px #FFF1B8":"none", tagColor:on?m[1]:"#A1A1AA" }; });
+    const tlSel={ year:tlRaw[sel][0], color:tlRaw[sel][1], title:tlRaw[sel][2], detail:tlRaw[sel][3], impact:tlRaw[sel][4] };
+    const catTimelinePct=pct(2026);
+
+    // third parties
+    const tpRaw=[
+      ["Microsoft Azure","Cloud platform","Critical",88,"High","PQC in TLS & SymCrypt; published CNSA 2.0 product roadmap. Caterpillar's primary cloud."],
+      ["Trimble","Telematics & positioning","Critical",52,"Low","Deep embedded device fleet; no public PQC posture. Hard-to-upgrade field hardware."],
+      ["Wind River (VxWorks)","Embedded OS / OT","Critical",40,"Low","Long-life embedded crypto; PQC support nascent. Drives connected-machine exposure."],
+      ["Amazon Web Services","Cloud platform","High",85,"High","ML-KEM in KMS & TLS; s2n-tls PQC. Secondary cloud / data workloads."],
+      ["SAP","ERP","High",58,"Medium","Stated crypto-agility program; PQC roadmap early. Core finance & supply-chain system."],
+      ["Oracle","Database & cloud","High",60,"Medium","OCI PQC roadmap and Java PQC support; enterprise data backbone."],
+      ["Accenture","Systems integration","High",67,"Medium","Active PQC advisory practice and internal migration program."],
+      ["Cisco","Network infrastructure","High",70,"Medium","PQC in secure boot & roadmap across networking estate."],
+      ["IBM","Consulting & mainframe","Medium",90,"High","Co-author of NIST PQC standards; z16 quantum-safe systems."],
+      ["Salesforce","CRM","Medium",64,"Medium","Inherits hyperscaler PQC TLS; limited platform-level disclosure."],
+      ["Cloudflare","Edge & DNS security","Medium",93,"High","PQC TLS deployed by default across global edge."],
+      ["ServiceNow","ITSM workflow","Medium",55,"Low","Cloud TLS inherited; no explicit PQC commitment."],
+      ["Verizon Business","Telecom connectivity","Medium",57,"Low","Carrier PQC trials underway; network-wide migration unproven."],
+      ["Deloitte","Audit & advisory","Low",49,"Low","Advisory capability strong; own internal PQC posture unclear."],
+      ["Workday","HCM & finance SaaS","Low",53,"Low","Cloud TLS; no public PQC roadmap."],
+      ["Regional logistics carrier","Logistics & freight","Low",31,"Low","Representative tier-2 supplier; minimal security maturity."],
+    ];
+    const tps=tpRaw.map((t,i)=>({ id:i, name:t[0], cat:t[1], crit:t[2], score:t[3], conf:t[4], note:t[5],
+      critColor:this.critColor(t[2]), color:this.sColor(t[3]), bg:this.sBg(t[3]), stage:this.stage(t[3]),
+      confColor:this.confColor(t[4]), critN:this.critRank(t[2]) }));
+
+    const counts={All:tps.length,Critical:0,High:0,Medium:0,Low:0}; tps.forEach(t=>counts[t.crit]++);
+    const exposureCount=tps.filter(t=>(t.crit==="Critical"||t.crit==="High")&&t.score<65).length;
+    const readyCount=tps.filter(t=>t.score>=80).length;
+    const scoresSorted=tps.map(t=>t.score).sort((a,b)=>a-b);
+    const medianTp=Math.round((scoresSorted[7]+scoresSorted[8])/2);
+
+    // quadrant
+    const critX={Low:14,Medium:38,High:62,Critical:86};
+    const idxBy={}; const qf=this.state.quadFilter; const hov=this.state.hoverId;
+    const quadPoints=tps.map(t=>{
+      idxBy[t.crit]=(idxBy[t.crit]||0); const j=((idxBy[t.crit]%3)-1)*5; idxBy[t.crit]++;
+      const short=t.name.length>16?t.name.split(" ")[0]:t.name;
+      const match=qf==="All"||t.crit===qf;
+      return { id:t.id, short, name:t.name, cat:t.cat, crit:t.crit, score:t.score, note:t.note,
+        color:t.critColor, left:(critX[t.crit]+j)+"%", bottom:Math.min(95,Math.max(4,t.score))+"%",
+        opacity:match?1:0.16, z:hov===t.id?40:(match?5:2),
+        onEnter:()=>this.setState({hoverId:t.id}), onLeave:()=>this.setState({hoverId:null}),
+        showTip:hov===t.id, tipPos:t.score>=68?"top:140%":"bottom:140%",
+        tipScoreColor:this.sColor(t.score) };
+    });
+    const quadLegend=["Critical","High","Medium","Low"].map(lvl=>{
+      const on=qf===lvl;
+      return { label:lvl, dot:this.critColor(lvl), onClick:()=>this.setState({quadFilter:on?"All":lvl}),
+        bg:on?this.critColor(lvl):"#fff", fg:on?"#fff":"var(--ink-2)",
+        border:on?this.critColor(lvl):"var(--line-2)" };
+    });
+
+    const topExposed=[...tps].sort((a,b)=>(b.critN-a.critN)||(a.score-b.score)).slice(0,4)
+      .map(t=>({ name:t.name, cat:t.cat, crit:t.crit, critColor:t.critColor, score:t.score, color:t.color }));
+
+    // table
+    const f=this.state.tpFilter;
+    let table=f==="All"?[...tps]:tps.filter(t=>t.crit===f);
+    const sk=this.state.tpSort;
+    if(sk==="readiness"){ table.sort((a,b)=>this.state.tpDir==="asc"?a.score-b.score:b.score-a.score); }
+    else if(sk==="criticality"){ table.sort((a,b)=>this.state.tpDir==="asc"?a.critN-b.critN:b.critN-a.critN); }
+    else { table.sort((a,b)=>(b.critN-a.critN)||(a.score-b.score)); }
+    const thirdParties=table.map((t,i)=>({ ...t, barW:mounted?t.score+"%":"0%", rowBg:i%2?"#FAFAF9":"#fff" }));
+    const filterTabs=["All","Critical","High","Medium","Low"].map(lvl=>{
+      const on=f===lvl;
+      return { label:lvl, count:counts[lvl], onClick:()=>this.setState({tpFilter:lvl}),
+        fg:on?"#141414":"var(--ink-2)", bg:on?"#fff":"transparent",
+        shadow:on?"0 1px 2px rgba(20,20,20,0.12)":"none" };
+    });
+    const setSort=(key)=>()=>this.setState(s=>({ tpSort:key, tpDir:s.tpSort===key&&s.tpDir==="desc"?"asc":"desc" }));
+    const arrow=(key)=>{ if(this.state.tpSort!==key)return "↕"; return this.state.tpDir==="asc"?"↑":"↓"; };
+
+    const kpis=[
+      { label:"Caterpillar readiness", value:catOverall, unit:"/100", color:this.sColor(catOverall), icon:"gauge", foot:"Stage: Assessing · Low confidence" },
+      { label:"Peer benchmark rank", value:"#"+catRank, unit:"of 6", color:"#141414", icon:"bar-chart-3", foot:"vs. heavy-equipment competitors" },
+      { label:"Vendors lagging", value:exposureCount+" / 8", unit:"", color:"#B91C1C", icon:"triangle-alert", foot:"critical & high relationships below 65 readiness" },
+      { label:"HNDL exposure horizon", value:"~2032", unit:"", color:"#7F1D1D", icon:"alarm-clock", foot:"data harvested today at decryption risk" },
+    ];
+
+    // executive questions
+    const questionGroups=[
+      { icon:"server", title:"Our own infrastructure", stakes:"We can't protect cryptography we can't see.",
+        items:[
+          "Do we have a complete inventory of where and how we use cryptography across IT, OT, products and embedded systems?",
+          "Can we change cryptographic algorithms without re-architecting the system around them (crypto-agility)?",
+          "Which assets have the longest replacement cycles — machines, controllers, firmware — and will be hardest to migrate in time?",
+        ], span:"" },
+      { icon:"key-round", title:"Authentication & identity", stakes:"Forgeable signatures break trust in every login and update.",
+        items:[
+          "Are our authentication, certificate and code-signing systems on a defined path to quantum-safe algorithms?",
+          "If software or firmware signatures could be forged, what is our exposure across the connected machine fleet?",
+          "Do we depend on third-party identity providers, and what is their migration commitment?",
+        ], span:"" },
+      { icon:"database", title:"Data at rest & in transit", stakes:"Long-life secrets stolen today can be read tomorrow.",
+        items:[
+          "What data must stay confidential for 10+ years — designs, IP, M&A, pricing, contracts, customer data?",
+          "Is that long-life data encrypted with algorithms a quantum computer will eventually break?",
+          "Which of it is already flowing through networks where it could be harvested now and decrypted later?",
+        ], span:"" },
+      { icon:"share-2", title:"Critical third parties", stakes:"Our data is only as confidential as our weakest critical vendor.",
+        items:[
+          "For each critical vendor (cloud, telematics, ERP, connectivity), what is their PQC roadmap and contractual commitment?",
+          "Who holds our confidential data, and can they guarantee its confidentiality through the quantum transition?",
+          "What is our concentration risk if a single critical provider migrates late or not at all?",
+        ], span:"" },
+      { icon:"trending-up", title:"Business impact & accountability", stakes:"Late migration is a balance-sheet and reputation risk — not just an IT task.",
+        items:[
+          "What is the cost to integrity if product or firmware data could be tampered — safety, recalls, liability?",
+          "What is the competitive and market cost if designs or pricing are decrypted by an adversary?",
+          "Who owns this program, what is the funded multi-year plan, and how do we report progress to the board?",
+        ], span:"grid-column:1 / -1" },
+    ];
+
+    return {
+      isStart:view==="start", isOverview:view==="overview", isCat:view==="cat", isBench:view==="bench",
+      isTp:view==="tp", isTimeline:view==="timeline", isQuestions:view==="questions",
+      viewTitle:titles[view][1], viewCrumb:titles[view][0],
+      navItems, goBench:nav("bench"), goTp:nav("tp"),
+      guideCards, stageLegend,
+      kpis, catOverall, catRank, catStage:this.stage(catOverall),
+      catGaugeColor:this.sColor(catOverall), catGaugeDeg:Math.round(catOverall*3.6)+"deg", catGapPts:80-catOverall,
+      catDims, roadmap, companies,
+      timeline, tlSel, catTimelinePct,
+      thirdParties, quadPoints, quadLegend, filterTabs, topExposed,
+      tpCount:tps.length, exposureCount, readyCount, medianTp,
+      sortCrit:setSort("criticality"), sortReady:setSort("readiness"),
+      critArrow:arrow("criticality"), readyArrow:arrow("readiness"),
+      questionGroups,
+    };
+  }
+}
+</script>
+</body>
+</html>
