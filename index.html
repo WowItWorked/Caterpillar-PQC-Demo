@@ -33,12 +33,37 @@
   ::-webkit-scrollbar-thumb{background:#C9C9C6;border-radius:99px;border:2px solid #F4F4F2}
   ::-webkit-scrollbar-track{background:transparent}
   h1,h2,h3,h4{font-family:"Archivo",sans-serif;margin:0}
+
+  /* ===== Responsive: phones & small tablets ===== */
+  @media (max-width:820px){
+    html,body{height:auto!important}
+    #dc-root,#dc-root>.sc-host{height:auto!important;min-height:100%}
+    /* stack the shell vertically and let the page scroll */
+    .app-root{flex-direction:column!important;height:auto!important;overflow:visible!important}
+    .app-side{width:100%!important;height:auto!important}
+    /* turn the sidebar into a compact wrapped top nav */
+    .side-org,.side-foot{display:none!important}
+    .side-nav{display:flex!important;flex-flow:row wrap!important;overflow:visible!important;gap:6px;padding:10px 12px!important}
+    .side-nav a{display:inline-flex!important;margin-bottom:0!important;white-space:nowrap;font-size:13px}
+    main{height:auto!important}
+    .app-scroll{flex:none!important;overflow:visible!important}
+    .app-scroll>div{padding:16px!important}
+    header{height:auto!important;flex-wrap:wrap;padding:12px 16px!important;gap:10px!important}
+    /* collapse every auto-fit grid to a single column */
+    [style*="repeat(auto-fit"]{grid-template-columns:1fr!important}
+    /* let wide tables scroll horizontally inside their card */
+    main div:has(> table){overflow-x:auto!important}
+    main table{min-width:600px}
+    /* let the timeline strip scroll horizontally */
+    .tl-wrap{overflow-x:auto!important}
+    .tl-strip{min-width:560px}
+  }
 </style>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </helmet>
-<div style="display:flex;height:100vh;width:100%;overflow:hidden;font-family:'Barlow',sans-serif">
+<div class="app-root" style="display:flex;height:100vh;width:100%;overflow:hidden;font-family:'Barlow',sans-serif">
 
-  <aside style="width:256px;background:#141414;color:#fff;flex:none;display:flex;flex-direction:column;height:100%">
+  <aside class="app-side" style="width:256px;background:#141414;color:#fff;flex:none;display:flex;flex-direction:column;height:100%">
     <div style="padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.1)">
       <div style="display:flex;align-items:center;gap:11px">
         <span style="width:34px;height:34px;background:#FFCD11;display:grid;place-items:center;flex:none;transform:skewX(-9deg)">
@@ -50,7 +75,7 @@
       <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:10px;font-weight:600">Post-Quantum Readiness</div>
     </div>
 
-    <div style="padding:16px 16px 8px">
+    <div class="side-org" style="padding:16px 16px 8px">
       <div style="font-size:10.5px;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px">Organization</div>
       <div style="display:flex;align-items:center;gap:11px;padding:11px;border-radius:8px;background:rgba(255,205,17,0.1);border:1px solid rgba(255,205,17,0.28)">
         <span style="width:36px;height:36px;border-radius:7px;background:#FFCD11;color:#141414;display:grid;place-items:center;font-weight:800;font-size:14px;flex:none;font-family:'Archivo',sans-serif">CAT</span>
@@ -61,7 +86,7 @@
       </div>
     </div>
 
-    <nav style="padding:8px 12px;flex:1;overflow-y:auto">
+    <nav class="side-nav" style="padding:8px 12px;flex:1;overflow-y:auto">
       <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
         <a onClick="{{ item.onClick }}" style="display:flex;align-items:center;gap:12px;padding:10px 11px;border-radius:7px;cursor:pointer;margin-bottom:3px;font-size:14px;font-weight:{{ item.weight }};color:{{ item.fg }};background:{{ item.bg }};box-shadow:{{ item.accent }};transition:background 140ms">
           <i data-lucide="{{ item.icon }}" style="width:18px;height:18px;color:{{ item.iconColor }};flex:none"></i>
@@ -70,7 +95,7 @@
       </sc-for>
     </nav>
 
-    <div style="padding:14px 18px;border-top:1px solid rgba(255,255,255,0.1)">
+    <div class="side-foot" style="padding:14px 18px;border-top:1px solid rgba(255,255,255,0.1)">
       <div style="display:flex;align-items:center;gap:9px;font-size:11px;color:rgba(255,255,255,0.5);line-height:1.45">
         <i data-lucide="shield" style="width:14px;height:14px;flex:none;color:#FFCD11"></i>
         <span>Post-quantum readiness assessment · Q2 2026</span>
@@ -98,7 +123,7 @@
       <span style="font-size:12.5px;color:var(--ink);line-height:1.5">Post-quantum readiness is <strong>not publicly disclosed</strong> by these organizations. Scores are analyst estimates inferred from observable signals (public crypto posture, NIST / CNSA alignment, cloud platforms, certifications, disclosures) and carry a stated confidence. Use them as a directional planning aid — not as audited fact.</span>
     </div>
 
-    <div style="flex:1;overflow-y:auto">
+    <div class="app-scroll" style="flex:1;overflow-y:auto">
 
       <!-- ============== START HERE ============== -->
       <sc-if value="{{ isStart }}" hint-placeholder-val="{{ true }}">
@@ -547,9 +572,9 @@
         <div style="background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(20,20,20,0.05);padding:28px 30px">
           <h3 style="font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px">The post-quantum timeline</h3>
           <div style="font-size:13px;color:var(--ink-2);margin-bottom:34px">From the first warnings to hard regulatory deadlines. Click any milestone to see what happened and what it means for Caterpillar.</div>
-          <div style="position:relative;padding:0 6px">
+          <div class="tl-wrap" style="position:relative;padding:0 6px">
             <div style="position:absolute;left:30px;right:30px;top:33px;height:3px;background:var(--line-2);border-radius:99px;z-index:0"></div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;position:relative;z-index:1">
+            <div class="tl-strip" style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;position:relative;z-index:1">
               <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="9">
                 <div onClick="{{ t.onClick }}" style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;cursor:pointer;text-align:center">
                   <span style="display:block;height:18px;line-height:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:{{ t.yearColor }}">{{ t.year }}</span>
